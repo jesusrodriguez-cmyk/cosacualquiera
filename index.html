@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz mes mi amor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ff7f50, #ff1493);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1, p {
+            font-family: 'Pacifico', cursive;
+            margin-bottom: 20px;
+        }
+
+        .countdown-container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 60px 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-family: 'Pacifico', cursive;
+            margin-bottom: 40px;
+            color: #fff;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        #timer {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .time-block {
+            background: linear-gradient(135deg, #ff1493, #ff7f50);
+            padding: 30px 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 120px;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .time-block:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .time-block span {
+            font-size: 3.5rem;
+            font-weight: 600;
+            color: white;
+            display: block;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+        }
+
+        .time-block p {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-top: 10px;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Estilos para la página de sorpresa */
+        .sorpresa {
+            display: none;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+            width: 80%;
+            max-width: 800px;
+            margin-top: 50px;
+            text-align: center;
+            transition: all 1s ease-in-out;
+        }
+
+        .sorpresa h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: 3rem;
+            margin-bottom: 30px; /* Mayor separación entre título y contenido */
+            color: white;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .video-text-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            width: 100%;
+            gap: 20px;
+        }
+
+        .video {
+            max-width: 50%;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        video {
+            width: 60%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .video-text {
+            max-width: 45%;
+            font-size: 1.2rem;
+            color: white;
+            text-align: left;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Música - Ocultada al inicio */
+        audio {
+            display:none;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Contador -->
+    <div class="countdown-container" id="contador">
+        <h1>¡Falta poco para nuestro gran momento!</h1>
+        <div id="timer">
+            <div class="time-block" id="dias">
+                <span>00</span>
+                <p>Días</p>
+            </div>
+            <div class="time-block" id="horas">
+                <span>00</span>
+                <p>Horas</p>
+            </div>
+            <div class="time-block" id="minutos">
+                <span>00</span>
+                <p>Minutos</p>
+            </div>
+            <div class="time-block" id="segundos">
+                <span>00</span>
+                <p>Segundos</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sorpresa (Inicialmente oculta) -->
+    <div class="sorpresa" id="sorpresa">
+        <h1>¡Feliz tercer mes, mi Amor!</h1>
+        <p class="subtitle">Tres meses llenos de amor, risas y recuerdos inolvidables.</p>
+
+        <!-- Contenedor para el video y el texto -->
+        <div class="video-text-container">
+            <!-- Video desde tu archivo local -->
+            <div class="video">
+                <video controls autoplay loop>
+                    <source src="video_tuyo.mp4" type="video/mp4">
+                    Tu navegador no soporta este video.
+                </video>
+            </div>
+
+            <!-- Texto al lado del video -->
+            <div class="video-text">
+                <h2>Feliz tercer mes </h2>
+                <p>Conocerte pudo ser cuestión de suerte o coincidencia, pero prefiero interpretarlo como un regalo de la vida... Rogue mucho tiempo tener una mujer como tu en mi vida, no sabes lo agradecido que estoy con Dios por traerte a mi vida. 
+                    Te amo mucho "mi oración escuchada"</p>
+            </div>
+        </div>
+
+        <!-- Música de fondo (inicialmente oculta) -->
+        <audio id="music" autoplay loop>
+            <source src="musica.mp3" type="audio/mp3">
+            Tu navegador no soporta audio.
+        </audio>
+    </div>
+
+    <script>
+        // Configuración de la fecha de la cuenta regresiva
+        const fechaObjetivo = new Date("2025-09-14T00:00:00").getTime(); // Cambia la fecha de tu evento
+
+        const cuentaRegresiva = setInterval(function() {
+            let ahora = new Date().getTime();
+            let distancia = fechaObjetivo - ahora;
+
+            // Calculando días, horas, minutos y segundos
+            let dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
+            let horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            let minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
+            let segundos = Math.floor((distancia % (1000 * 60)) / 1000);
+
+            // Mostrando los valores en el HTML
+            document.getElementById("dias").children[0].textContent = dias;
+            document.getElementById("horas").children[0].textContent = horas;
+            document.getElementById("minutos").children[0].textContent = minutos;
+            document.getElementById("segundos").children[0].textContent = segundos;
+
+            // Cuando la cuenta regresiva termine
+            if (distancia < 0) {
+                clearInterval(cuentaRegresiva);
+                document.getElementById("contador").style.display = "none";  // Ocultar el contador
+                document.getElementById("sorpresa").style.display = "block";  // Mostrar la sorpresa
+                document.getElementById("music").play();  // Reproducir la música
+            }
+        }, 1000);
+    </script>
+
+</body>
+</html>
